@@ -101,7 +101,7 @@ pip install requests
 python prometheus_extract.py --url http://prometheus.example.com:9090
 
 # With timeout for slow servers
-python prometheus_extract.py --url http://10.0.2.30:9090 --timeout 30
+python prometheus_extract.py --url http://prometheus.example.com:9090 --timeout 30
 
 # Analyze metrics from a file
 python prometheus_extract.py --file metrics.txt
@@ -172,11 +172,11 @@ EXECUTIVE SUMMARY
 
 [*] Security Findings:
     [!] pprof Debug Endpoint: EXPOSED
-        http://10.0.2.30:9090/debug/pprof/
+        http://prometheus.example.com:9090/debug/pprof/
     Config API: ACCESSIBLE
-        http://10.0.2.30:9090/api/v1/status/config
+        http://prometheus.example.com:9090/api/v1/status/config
     Federation: ENABLED
-        http://10.0.2.30:9090/federate
+        http://prometheus.example.com:9090/federate
 ```
 
 ### Target Enumeration
@@ -185,8 +185,8 @@ EXECUTIVE SUMMARY
 ================================================================================
 TARGET ENUMERATION
 ================================================================================
-[URL] http://10.0.2.30:9090/targets
-[API] http://10.0.2.30:9090/api/v1/targets
+[URL] http://prometheus.example.com:9090/targets
+[API] http://prometheus.example.com:9090/api/v1/targets
 
 [*] Total Active Targets: 88
 [*] Total Dropped Targets: 12
@@ -212,10 +212,10 @@ SECURITY FINDINGS
 ================================================================================
 
 [*] Internal/Private IP Addresses (24):
-    - 10.0.1.10
-    - 10.0.1.11
-    - 10.0.2.30
-    - 192.168.1.100
+    - 10.2.1.10
+    - 10.2.1.11
+    - 10.2.2.30
+    - 192.168.2.100
     ...
 
 [*] Internal Hostnames (12):
@@ -226,11 +226,11 @@ SECURITY FINDINGS
 
 [*] Debug Endpoints:
     pprof: EXPOSED [!]
-           [URL] http://10.0.2.30:9090/debug/pprof/
+           [URL] http://prometheus.example.com:9090/debug/pprof/
            [ACTION] Try these endpoints:
-                    http://10.0.2.30:9090/debug/pprof/heap
-                    http://10.0.2.30:9090/debug/pprof/goroutine?debug=2
-                    http://10.0.2.30:9090/debug/pprof/profile?seconds=30
+                    http://prometheus.example.com:9090/debug/pprof/heap
+                    http://prometheus.example.com:9090/debug/pprof/goroutine?debug=2
+                    http://prometheus.example.com:9090/debug/pprof/profile?seconds=30
     fgprof: Not accessible
 
 [*] Sensitive Keywords in Config:
@@ -246,7 +246,7 @@ KUBERNETES ENUMERATION
 ================================================================================
 [TIP] Kubernetes metrics reveal full cluster topology
 [ACTION] Query kube_pod_info, kube_node_info for detailed enumeration
-[URL] http://10.0.2.30:9090/api/v1/query?query=kube_pod_info
+[URL] http://prometheus.example.com:9090/api/v1/query?query=kube_pod_info
 
 [*] Namespaces (8):
     [!] kube-system
@@ -276,19 +276,19 @@ ACTIONABLE RECOMMENDATIONS
 
   Finding: pprof Debug Endpoint Exposed
   Impact:  Memory dumps can leak sensitive data, credentials, and internal state
-  Action:  Visit http://10.0.2.30:9090/debug/pprof/heap and 
-           http://10.0.2.30:9090/debug/pprof/goroutine?debug=2
+  Action:  Visit http://prometheus.example.com:9090/debug/pprof/heap and 
+           http://prometheus.example.com:9090/debug/pprof/goroutine?debug=2
 
 [HIGH]
 
   Finding: Configuration API Accessible
   Impact:  Full config may contain credentials and sensitive paths
-  Action:  Review http://10.0.2.30:9090/api/v1/status/config for: 
+  Action:  Review http://prometheus.example.com:9090/api/v1/status/config for: 
            bearer_token, password, tls_config
 
   Finding: Federation Endpoint Enabled
   Impact:  Allows scraping all metrics from this Prometheus instance
-  Action:  Query http://10.0.2.30:9090/federate?match[]={__name__!=""} 
+  Action:  Query http://prometheus.example.com:9090/federate?match[]={__name__!=""} 
            to export all metrics
 
 --------------------------------------------------------------------------------
@@ -296,17 +296,17 @@ GENERAL NEXT STEPS:
 --------------------------------------------------------------------------------
 
 1. Query Interesting Metrics:
-   curl 'http://10.0.2.30:9090/api/v1/query?query=up'
-   curl 'http://10.0.2.30:9090/api/v1/query?query=node_uname_info'
+   curl 'http://prometheus.example.com:9090/api/v1/query?query=up'
+   curl 'http://prometheus.example.com:9090/api/v1/query?query=node_uname_info'
 
 2. Enumerate All Targets:
-   curl 'http://10.0.2.30:9090/api/v1/targets' | jq .
+   curl 'http://prometheus.example.com:9090/api/v1/targets' | jq .
 
 3. Extract Configuration:
-   curl 'http://10.0.2.30:9090/api/v1/status/config' | jq .
+   curl 'http://prometheus.example.com:9090/api/v1/status/config' | jq .
 
 4. Download All Metrics via Federation:
-   curl -G 'http://10.0.2.30:9090/federate' \
+   curl -G 'http://prometheus.example.com:9090/federate' \
      --data-urlencode 'match[]={__name__!=""}'
 ```
 
