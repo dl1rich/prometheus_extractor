@@ -1,14 +1,21 @@
-<img width="854" height="805" alt="image" src="https://github.com/user-attachments/assets/27625456-92dc-431c-8a4e-d8f4cb86c8e0" /># Prometheus Attack Surface Enumerator
+# Prometheus Attack Surface Enumerator
 
 A comprehensive reconnaissance and security analysis tool for Prometheus servers. This tool transforms from a simple metrics parser into a full-featured attack surface enumerator, providing operator-useful intelligence, security findings, and infrastructure discovery.
 
 ## Screenshots
 
-(HTML report) 
-<img width="1152" height="1202" alt="image" src="https://github.com/user-attachments/assets/ec815f67-0cdd-4ac6-9ec1-d9c0c06c225c" />
-
-(Terminal output)
-<img width="854" height="805" alt="image" src="https://github.com/user-attachments/assets/455ba61e-724d-40f9-bae2-31e57b708bd7" />
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <strong>HTML report</strong><br>
+      <img src="https://github.com/user-attachments/assets/ec815f67-0cdd-4ac6-9ec1-d9c0c06c225c" width="100%" alt="HTML report screenshot">
+    </td>
+    <td width="50%" align="center">
+      <strong>Terminal output</strong><br>
+      <img src="https://github.com/user-attachments/assets/455ba61e-724d-40f9-bae2-31e57b708bd7" width="100%" alt="Terminal output screenshot">
+    </td>
+  </tr>
+</table>
 
 
 ## Features
